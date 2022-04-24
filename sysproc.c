@@ -12,18 +12,44 @@ sys_fork(void)
 {
   return fork();
 }
-
+//modified for lab01
 int
 sys_exit(void)
-{
-  exit();
-  return 0;  // not reached
+{//Begins_update_for_LAB01_
+int status
+if (argint(0,&status) <0)
+    return -1;
+//end_update_for_LAB01
+exit(status);
+//if there is error, uncommented the line 24
+return 0; // not reached
 }
 
+//modified for lab01
 int
 sys_wait(void)
 {
-  return wait();
+    char *status;
+    if(argptr(0,&status, sizeof(int))<0)
+        return -1;
+    return wait((int*)status);
+}
+
+//created for lab01
+int
+sys_waitpid(void)
+{
+    int pid;
+    char *status;
+    int options;
+    if(argint(0,&pid)<0)
+        return -1;
+    if(argptr(1,&status, sizeof(int))<0)
+        return -1;
+    if(argint(2,&options)<0)
+        return -1;
+
+    return waitpid(pid,(int*)status,options);
 }
 
 int

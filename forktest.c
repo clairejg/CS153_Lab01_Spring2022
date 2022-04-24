@@ -16,6 +16,7 @@ printf(int fd, const char *s, ...)
 void
 forktest(void)
 {
+    //int status =0; // added for lab01
   int n, pid;
 
   printf(1, "fork test\n");
@@ -25,24 +26,24 @@ forktest(void)
     if(pid < 0)
       break;
     if(pid == 0)
-      exit();
+      exit(0); // modifed for lab_ from exit() => exit(status)
   }
 
   if(n == N){
     printf(1, "fork claimed to work N times!\n", N);
-    exit();
+    exit(0); // modifed for lab_ from exit() => exit(status)
   }
 
   for(; n > 0; n--){
-    if(wait() < 0){
+    if(wait(0) < 0){
       printf(1, "wait stopped early\n");
-      exit();
+      exit(0);// modifed for lab_ from exit() => exit(status)
     }
   }
 
-  if(wait() != -1){
+  if(wait(0) != -1){
     printf(1, "wait got too many\n");
-    exit();
+    exit(0);// modifed for lab_ from exit() => exit(status)
   }
 
   printf(1, "fork test OK\n");
@@ -52,5 +53,5 @@ int
 main(void)
 {
   forktest();
-  exit();
+  exit(0); // modifed for lab_ from exit() => exit(0)
 }

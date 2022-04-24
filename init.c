@@ -11,6 +11,7 @@ int
 main(void)
 {
   int pid, wpid;
+  int status=0; // added for Lab01
 
   if(open("console", O_RDWR) < 0){
     mknod("console", 1, 1);
@@ -24,14 +25,14 @@ main(void)
     pid = fork();
     if(pid < 0){
       printf(1, "init: fork failed\n");
-      exit();
+      exit(0); //modified for lab01 from 'exit()=> exit(0)'
     }
     if(pid == 0){
       exec("sh", argv);
       printf(1, "init: exec sh failed\n");
-      exit();
+      exit(0);//modified for lab01 from 'exit()=> exit(0)'
     }
-    while((wpid=wait()) >= 0 && wpid != pid)
+    while((wpid=wait(0)) >= 0 && wpid != pid)
       printf(1, "zombie!\n");
   }
 }
